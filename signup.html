@@ -55,7 +55,7 @@
   <div class="signup-box">
     <h2>إنشاء حساب جديد</h2>
     <form id="signupForm">
-      <input type="text" id="newUser" placeholder="اسم المستخدم" required>
+      <input type="email" id="newUser" placeholder="البريد الإلكتروني" required>
       <input type="password" id="newPass" placeholder="كلمة المرور" required>
       <button type="submit">إنشاء الحساب</button>
     </form>
@@ -63,25 +63,38 @@
   </div>
 
 <script>
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC7EGWiuEDEr3B90zeS1CEgr5F3ue7MzSg",
+    authDomain: "facbook-dcdec.firebaseapp.com",
+    projectId: "facbook-dcdec",
+    storageBucket: "facbook-dcdec.firebasestorage.app",
+    messagingSenderId: "969873004074",
+    appId: "1:969873004074:web:b1d599d90c740c6e759553"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
   document.getElementById("signupForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
-    const username = document.getElementById("newUser").value;
+    const email = document.getElementById("newUser").value;
     const password = document.getElementById("newPass").value;
 
-    let users = JSON.parse(localStorage.getItem("users")) || {};
-
-    if (users[username]) {
-      alert("اسم المستخدم موجود مسبقاً، اختر اسم آخر");
-      return;
-    }
-
-    users[username] = password;
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("تم إنشاء الحساب بنجاح! سجّل دخولك الآن");
-    window.location.href = "index.html";
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        alert("تم إنشاء الحساب بنجاح! سجّل دخولك الآن");
+        window.location.href = "index.html";
+      })
+      .catch((error) => {
+        alert("خطأ: " + error.message);
+      });
   });
+</script>
 </script>
 
 </body>
