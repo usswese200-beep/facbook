@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>إنشاء حساب جديد</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+  }
+  .signup-box {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 320px;
+    text-align: center;
+  }
+  .signup-box h2 { margin-bottom: 20px; color: #333; }
+  .signup-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .signup-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: #4facfe;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .signup-box button:hover { background: #00c2e0; }
+  .signup-box a {
+    display: block;
+    margin-top: 12px;
+    color: #4facfe;
+    text-decoration: none;
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="signup-box">
+    <h2>إنشاء حساب جديد</h2>
+    <form id="signupForm">
+      <input type="text" id="newUser" placeholder="اسم المستخدم" required>
+      <input type="password" id="newPass" placeholder="كلمة المرور" required>
+      <button type="submit">إنشاء الحساب</button>
+    </form>
+    <a href="index.html">لديك حساب؟ سجّل الدخول</a>
+  </div>
+
+<script>
+  document.getElementById("signupForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById("newUser").value;
+    const password = document.getElementById("newPass").value;
+
+    let users = JSON.parse(localStorage.getItem("users")) || {};
+
+    if (users[username]) {
+      alert("اسم المستخدم موجود مسبقاً، اختر اسم آخر");
+      return;
+    }
+
+    users[username] = password;
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("تم إنشاء الحساب بنجاح! سجّل دخولك الآن");
+    window.location.href = "index.html";
+  });
+</script>
+
+</body>
+</html>
